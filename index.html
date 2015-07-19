@@ -1,0 +1,311 @@
+<html>
+<head>
+<style>
+.hint-container {
+  display: flex;
+  align-items: flex-end;
+}
+.hint-current {
+  float: left;
+  height: 60px;
+  width: 60px;
+  margin: 3px;
+  border-radius: 10px;
+}
+
+.hint-other-container {
+  display: flex;
+  flex-direction: row;
+  height: 40px;
+  width: 120px;
+}
+
+.hint-other {
+  flex: auto;
+  margin: 3px;
+  border-radius: 5px;
+} 
+
+.board {
+  display: flex;
+  flex-direction: column;
+  height: 480px;
+  width: 480px;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  flex: auto;
+}
+
+.item {
+  display: flex;
+  flex: auto;
+  flex-basis: 100%;
+  margin: 3px;
+  border-radius: 10px;
+  background-color: #ffcccc;
+  align-items: center;
+}
+
+.inner {
+  flex: auto;
+  text-align: center;
+}
+
+</style>
+<script>
+onLoad = (function() {
+  var NUM_OF_ITEMS = 9;
+  var NUM_OF_HINTS = 4;
+
+  var r = function(n) {
+    return Math.floor(Math.random() * n);
+  };
+
+  var other = function(n, k) {
+    var s = r(n - 1);
+    if (s < k)
+      return s;
+    else
+      return s + 1;
+  }
+
+  var shuffle = function(l) {
+    var i, j, n, tmp;
+    for (i = 0, n = l.length; i < n; i++) {
+      j = r(n);
+      tmp = l[j];
+      l[j] = l[i];
+      l[i] = tmp;
+    }
+    return l;
+  };
+
+  containerAndPoolProvider = function(n, m) {
+    var i, l = [];
+    for (i = 0; i < n + m; i++) {
+      l.push(i);
+    }
+    l = shuffle(l);
+    return {
+      "container": l.slice(0, n),
+      "pool": l.slice(-m),
+    };
+  };
+ 
+  var observee = function() {
+    var i = 0;
+    var listeners = {}
+    return {
+      "addObserver": function (fn, thisArg) {
+        listeners[i] = {
+          "fn": fn,
+          "thisArg": thisArg,
+        }
+        var del = (function(j) {
+          return function() {
+            delete listeners[j];
+          }
+        })(i);
+        i += 1;
+        return del;
+      },
+      "notify": function() {
+        for (i in listeners) {
+          listeners[i].fn.apply(listeners[i].thisArg, arguments);
+        }
+      }
+    };
+  };
+
+  var hintProvider = function(n, m) {
+    var cp = containerAndPoolProvider(m, n - m);
+
+    var o = observee();
+
+    var self = {
+      "addObserver": function(fn, thisArg) {
+        return o.addObserver(fn, thisArg);
+      },
+      "try": function(j) {
+        return cp.container[0] === j;
+      },
+      "shift": function() {
+        var i = r(n - m);
+        cp.container.push(cp.pool[i]);
+        cp.pool[i] = cp.container.shift();
+        o.notify(self, self.get());
+      },
+      "get": function() {
+        return cp.container.slice(0);
+      },
+    };
+
+    return self;
+  };
+
+  var itemContainerProvider = function(n, m) {
+    var cp = containerAndPoolProvider(n, m);
+    var o = observee();
+
+    var self = {
+      "addObserver": function(fn, thisArg) {
+        return o.addObserver(fn, thisArg);
+      },
+      "select": function(j) {
+        /* select されると、値が変わる */
+        if (j < 0 || n <= j) return;
+        var k = r(m);
+        var newItem = cp.pool[k];
+        cp.pool[k] = cp.container[j];
+        cp.container[j] = newItem;
+        o.notify(self, j, cp.pool[k] /* oldItem */, newItem)
+        return newItem;
+      },
+      "get": function() {
+        return cp.container.slice(0);
+      },
+    };
+
+    return self;
+  };
+
+  var model = (function(n, m) {
+    var itemContainer = itemContainerProvider(n, n);
+    var hint = hintProvider(n, m);
+    var colors = [
+      "#ffcccc",
+      "#ccffcc",
+      "#ccccff",
+      "#ffffcc",
+      "#ffcc99",
+      "#ccffff",
+      "#99ccff",
+      "#ffccff",
+      "#ff99cc",
+      "#cc99ff",
+      "#cc6666",
+      "#66cc66",
+      "#6666cc",
+      "#123456",
+      "#654321",
+      "#cccccc",
+      "#999999",
+      "#666666",
+    ];
+
+    var self = {
+      "addItemContainerObserver": function(fn, thisArg) {
+        return itemContainer.addObserver(fn, thisArg);
+      },
+      "addHintObserver": function(fn, thisArg) {
+        return hint.addObserver(fn, thisArg);
+      },
+      "select": function(i) {
+        if (!hint.try(i)) return;
+        itemContainer.select(i);
+        hint.shift();
+      },
+      "getItemContainer": function() {
+        return itemContainer.get();
+      },
+      "getHint": function() {
+        return hint.get();
+      },
+      "getColor": function(i) {
+        return colors[i];
+      },
+    };
+    return self;
+  })(NUM_OF_ITEMS, NUM_OF_HINTS);
+
+  var controller = (function(m) {
+    return function(i) {
+      m.select(i);
+    };
+  })(model);
+
+  var view = (function(m) {
+    var hintMapper = function(items) {
+      return function(i) {
+        return items[i];
+      }
+    };
+    return function(hintElms, itemElms) {
+      m.addHintObserver(function(sender, hints) {
+        var i, n, items = m.getItemContainer();
+        for (i = 0, n = hints.length; i < n; i++) {
+          hintElms[i].style.backgroundColor = m.getColor(items[hints[i]]);
+        }
+      });
+      m.addItemContainerObserver(function(sender, i, _old, _new) {
+        itemElms[i].style.backgroundColor = m.getColor(_new);
+      });
+
+      var hints = m.getHint();
+      var items = m.getItemContainer();
+
+      var i, n;
+      for (i = 0, n = hints.length; i < n; i++) {
+        hintElms[i].style.backgroundColor = m.getColor(items[hints[i]]);
+      }
+      for (i = 0, n = items.length; i < n; i++) {
+        itemElms[i].style.backgroundColor = m.getColor(items[i]);
+      }
+    };
+  })(model);
+
+  var onLoad = function(d) {
+    var i = 0, hintElms = [], itemElms = [];
+    for (i = 0; i < NUM_OF_HINTS; i++) {
+      var elm = d.getElementById("hint" + i);
+      hintElms.push(elm);
+    }
+    for (i = 0; i < NUM_OF_ITEMS; i++) {
+      var elm = d.getElementById("item" + i);
+      elm.onclick = (function(j) {
+        return function() {
+          controller(j);
+        };
+      })(i);
+      itemElms.push(elm);
+    }
+    view(hintElms, itemElms);
+  };
+
+  return onLoad
+})();
+
+</script>
+</head>
+<body onload="onLoad(document)">
+<div class="hint-container">
+  <div class="hint-current" id="hint0"></div>
+  <div class="hint-other-container">
+    <div class="hint-other" id="hint1"></div>
+    <div class="hint-other" id="hint2"></div>
+    <div class="hint-other" id="hint3"></div>
+  </div>
+</div>
+<br>
+<div class="board">
+  <div class="row">
+    <div class="item" id="item0" accesskey="7"><div class="inner" id="inner0"></div></div>
+    <div class="item" id="item1" accesskey="8"><div class="inner" id="inner1"></div></div>
+    <div class="item" id="item2" accesskey="9"><div class="inner" id="inner2"></div></div>
+  </div>
+  <div class="row">
+    <div class="item" id="item3" accesskey="u"><div class="inner" id="inner3"></div></div>
+    <div class="item" id="item4" accesskey="i"><div class="inner" id="inner4"></div></div>
+    <div class="item" id="item5" accesskey="o"><div class="inner" id="inner5"></div></div>
+  </div>
+  <div class="row">
+    <div class="item" id="item6" accesskey="j"><div class="inner" id="inner6"></div></div>
+    <div class="item" id="item7" accesskey="k"><div class="inner" id="inner7"></div></div>
+    <div class="item" id="item8" accesskey="l"><div class="inner" id="inner8"></div></div>
+  </div>
+</div>
+</body>
+</html>
