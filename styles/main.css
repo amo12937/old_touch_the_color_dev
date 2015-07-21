@@ -1,3 +1,178 @@
+@charset "UTF-8";
+/*
+# animation
+
+## animation-fail
+`animation-fail` は、選択したアイテムが間違っていた場合に使用する
+
+```
+<div style="width:100px; height:100px; background-color:#ffcccc; border-radius:10px;" onclick="(function(e) { e.className='animation-fail'; setTimeout(function() { e.className='';}, 1000);})(this)"></div>
+```
+ */
+.animation-fail {
+  -webkit-animation-name: animation-fail;
+          animation-name: animation-fail;
+  -webkit-animation-duration: 0.5s;
+          animation-duration: 0.5s;
+  -webkit-animation-timing-function: ease;
+          animation-timing-function: ease;
+  -webkit-animation-iteration-count: 1;
+          animation-iteration-count: 1; }
+
+@-webkit-keyframes animation-fail {
+  0% {
+    -webkit-transform: rotate(10deg);
+            transform: rotate(10deg); }
+  20% {
+    -webkit-transform: rotate(-10deg);
+            transform: rotate(-10deg); }
+  40% {
+    -webkit-transform: rotate(5deg);
+            transform: rotate(5deg); }
+  60% {
+    -webkit-transform: rotate(-5deg);
+            transform: rotate(-5deg); }
+  80% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg); } }
+
+@keyframes animation-fail {
+  0% {
+    -webkit-transform: rotate(10deg);
+            transform: rotate(10deg); }
+  20% {
+    -webkit-transform: rotate(-10deg);
+            transform: rotate(-10deg); }
+  40% {
+    -webkit-transform: rotate(5deg);
+            transform: rotate(5deg); }
+  60% {
+    -webkit-transform: rotate(-5deg);
+            transform: rotate(-5deg); }
+  80% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg); } }
+
+/*
+## animation-success
+`animation-success` は、選択したアイテムが正解だった場合に使用する
+
+```
+<div style="width:100px; height:100px; background-color:#ffcccc; border-radius:10px;" onclick="(function(e) { e.className='animation-success'; setTimeout(function() { e.className='';}, 1000);})(this)"></div>
+```
+ */
+.animation-success {
+  -webkit-animation-name: animation-success;
+          animation-name: animation-success;
+  -webkit-animation-duration: 0.4s;
+          animation-duration: 0.4s;
+  -webkit-animation-timing-function: ease;
+          animation-timing-function: ease;
+  -webkit-animation-iteration-count: 1;
+          animation-iteration-count: 1;
+  -webkit-animation-fill-mode: forwards;
+          animation-fill-mode: forwards; }
+
+@-webkit-keyframes animation-success {
+  100% {
+    -webkit-transform: scale(1.2);
+            transform: scale(1.2);
+    opacity: 0; } }
+
+@keyframes animation-success {
+  100% {
+    -webkit-transform: scale(1.2);
+            transform: scale(1.2);
+    opacity: 0; } }
+
+/*
+## animation-hint
+
+```
+<div class="animation-hint" style="width:100px; height:100px; background-color:#ffcccc; border-radius:10px;"></div>
+```
+ */
+.animation-hint {
+  -webkit-animation-name: animation-hint;
+          animation-name: animation-hint;
+  -webkit-animation-duration: 1.0s;
+          animation-duration: 1.0s;
+  -webkit-animation-timing-function: ease;
+          animation-timing-function: ease;
+  -webkit-animation-iteration-count: infinite;
+          animation-iteration-count: infinite;
+  -webkit-animation-fill-mode: forwards;
+          animation-fill-mode: forwards; }
+
+@-webkit-keyframes animation-hint {
+  75% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg); }
+  80% {
+    -webkit-transform: rotate(5deg);
+            transform: rotate(5deg); }
+  85% {
+    -webkit-transform: rotate(-5deg);
+            transform: rotate(-5deg); }
+  90% {
+    -webkit-transform: rotate(5deg);
+            transform: rotate(5deg); }
+  95% {
+    -webkit-transform: rotate(-5deg);
+            transform: rotate(-5deg); }
+  100% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg); } }
+
+@keyframes animation-hint {
+  75% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg); }
+  80% {
+    -webkit-transform: rotate(5deg);
+            transform: rotate(5deg); }
+  85% {
+    -webkit-transform: rotate(-5deg);
+            transform: rotate(-5deg); }
+  90% {
+    -webkit-transform: rotate(5deg);
+            transform: rotate(5deg); }
+  95% {
+    -webkit-transform: rotate(-5deg);
+            transform: rotate(-5deg); }
+  100% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg); } }
+
+/*
+# board
+
+```
+<div class="board">
+  <div class="board-row">
+    <div class="board-cell" style="background-color:#ffcccc">
+      <div class="board-item" style="background-color:#ccccff"><div class="board-inner">12</div></div>
+      <div class="board-item" style="background-color:#ccffcc" onclick="(function(e){e.classList.add('animation-success');})(this)"><div class="board-inner">17</div></div>
+    </div>
+    <div class="board-cell" style="background-color:#ffcccc"><div class="board-item"></div></div>
+    <div class="board-cell" style="background-color:#ffcccc"><div class="board-item"></div></div>
+  </div>
+  <div class="board-row">
+    <div class="board-cell" style="background-color:#ffcccc"><div class="board-item"></div></div>
+    <div class="board-cell" style="background-color:#ffcccc" onclick="(function(e){ var r = function(n) { return Math.floor(Math.random() * n); }; var s = e.children[0]; var t = e.children[1]; t.classList.remove('animation-success'); t.style.backgroundColor=s.style.backgroundColor; t.innerHTML = s.innerHTML; t.style.opacity = 1; s.style.backgroundColor='#'+r(1000000); s.children[0].textContent=r(18); setTimeout(function(){t.classList.add('animation-success');}); })(this)">
+      <div class="board-item" style="background-color:#ccccff"><div class="board-inner">12</div></div>
+      <div class="board-item" style="opacity:0;"><div class="board-inner">13</div></div>
+    </div>
+    <div class="board-cell" style="background-color:#ffcccc"><div class="board-item"></div></div>
+  </div>
+  <div class="board-row">
+    <div class="board-cell" style="background-color:#ffcccc"><div class="board-item"></div></div>
+    <div class="board-cell" style="background-color:#ffcccc"><div class="board-item"></div></div>
+    <div class="board-cell" style="background-color:#ffcccc"><div class="board-item"></div></div>
+  </div>
+</div>
+```
+ */
 .board {
   display: -webkit-box;
   display: -webkit-flex;
@@ -26,7 +201,8 @@
       -ms-flex: auto;
           flex: auto; }
 
-.board-item {
+.board-cell {
+  position: relative;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -39,18 +215,42 @@
       -ms-flex-preferred-size: 100%;
           flex-basis: 100%;
   margin: 10px;
+  border-radius: 16px; }
+
+.board-item {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex: 1;
+  -webkit-flex: auto;
+      -ms-flex: auto;
+          flex: auto;
+  -webkit-flex-basis: 100%;
+      -ms-flex-preferred-size: 100%;
+          flex-basis: 100%;
   border-radius: 16px;
+  border: 0px solid #000000;
   -webkit-box-align: center;
   -webkit-align-items: center;
       -ms-flex-align: center;
-          align-items: center; }
+          align-items: center;
+  width: 100%;
+  height: 100%; }
+
+.board-item-old {
+  opacity: 0; }
 
 .board-inner {
   -webkit-box-flex: 1;
   -webkit-flex: auto;
       -ms-flex: auto;
           flex: auto;
-  text-align: center; }
+  text-align: center;
+  font-size: 40px; }
 
 @media screen and (max-width: 620px) {
   .board {
@@ -79,7 +279,8 @@
     -webkit-flex: auto;
         -ms-flex: auto;
             flex: auto; }
-  .board-item {
+  .board-cell {
+    position: relative;
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;
@@ -92,17 +293,39 @@
         -ms-flex-preferred-size: 100%;
             flex-basis: 100%;
     margin: 5px;
+    border-radius: 8px; }
+  .board-item {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-flex: 1;
+    -webkit-flex: auto;
+        -ms-flex: auto;
+            flex: auto;
+    -webkit-flex-basis: 100%;
+        -ms-flex-preferred-size: 100%;
+            flex-basis: 100%;
     border-radius: 8px;
+    border: 0px solid #000000;
     -webkit-box-align: center;
     -webkit-align-items: center;
         -ms-flex-align: center;
-            align-items: center; }
+            align-items: center;
+    width: 100%;
+    height: 100%; }
+  .board-item-old {
+    opacity: 0; }
   .board-inner {
     -webkit-box-flex: 1;
     -webkit-flex: auto;
         -ms-flex: auto;
             flex: auto;
-    text-align: center; } }
+    text-align: center;
+    font-size: 40px; } }
 
 .hint-container {
   display: -webkit-box;
