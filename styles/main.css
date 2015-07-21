@@ -75,14 +75,14 @@
 
 @-webkit-keyframes animation-success {
   100% {
-    -webkit-transform: scale(1.2);
-            transform: scale(1.2);
+    -webkit-transform: rotate(-90deg) scale(0.5);
+            transform: rotate(-90deg) scale(0.5);
     opacity: 0; } }
 
 @keyframes animation-success {
   100% {
-    -webkit-transform: scale(1.2);
-            transform: scale(1.2);
+    -webkit-transform: rotate(-90deg) scale(0.5);
+            transform: rotate(-90deg) scale(0.5);
     opacity: 0; } }
 
 /*
