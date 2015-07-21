@@ -327,6 +327,19 @@
     text-align: center;
     font-size: 40px; } }
 
+/*
+# hint
+
+```
+<div class="hint-container">
+  <div class="hint-dummy"></div>
+  <div class="hint-current" style="background-color:#ffcccc;"></div>
+  <div class="hint-other" style="background-color:#ffcccc;"></div>
+  <div class="hint-other" style="background-color:#ffcccc;"></div>
+  <div class="hint-other" style="background-color:#ffcccc;"></div>
+</div>
+```
+ */
 .hint-container {
   display: -webkit-box;
   display: -webkit-flex;
@@ -335,36 +348,213 @@
   -webkit-box-align: end;
   -webkit-align-items: flex-end;
       -ms-flex-align: end;
-          align-items: flex-end; }
+          align-items: flex-end;
+  position: relative; }
+
+.hint-dummy {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  width: 90px;
+  height: 90px;
+  margin: 6px;
+  border-radius: 10px;
+  opacity: 0; }
 
 .hint-current {
-  float: left;
-  width: 120px;
-  height: 120px;
+  width: 90px;
+  height: 90px;
   margin: 6px;
   border-radius: 10px; }
-
-.hint-other-container {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-  -webkit-flex-direction: row;
-      -ms-flex-direction: row;
-          flex-direction: row;
-  width: 240px;
-  height: 80px; }
 
 .hint-other {
-  -webkit-box-flex: 1;
-  -webkit-flex: auto;
-      -ms-flex: auto;
-          flex: auto;
+  width: 60px;
+  height: 60px;
   margin: 6px;
   border-radius: 10px; }
 
+/*
+  ## animation-hint-current
+  
+  ```
+<div class="hint-container">
+  <div class="hint-current" style="background-color:#ccccff;" onclick="(function(e, c) { e.classList.add(c); setTimeout(function() { e.classList.remove(c); }, 1000); })(this, 'animation-hint-current')"></div>
+  <div class="hint-other" style="background-color:#ffcccc;"></div>
+  <div class="hint-other" style="background-color:#ffcccc;"></div>
+  <div class="hint-other" style="background-color:#ffcccc;"></div>
+</div>
+  ```
+ */
+.animation-hint-current {
+  -webkit-animation-name: animation-hint-current;
+          animation-name: animation-hint-current;
+  -webkit-animation-duration: 0.5s;
+          animation-duration: 0.5s;
+  -webkit-animation-timing-function: ease;
+          animation-timing-function: ease;
+  -webkit-animation-iteration-count: 1;
+          animation-iteration-count: 1;
+  -webkit-animation-fill-mode: forwards;
+          animation-fill-mode: forwards; }
+
+@-webkit-keyframes animation-hint-current {
+  0% {
+    -webkit-transform: rotate(0deg) scale(1);
+            transform: rotate(0deg) scale(1);
+    opacity: 1; }
+  100% {
+    -webkit-transform: rotate(-90deg) scale(0.5);
+            transform: rotate(-90deg) scale(0.5);
+    opacity: 0; } }
+
+@keyframes animation-hint-current {
+  0% {
+    -webkit-transform: rotate(0deg) scale(1);
+            transform: rotate(0deg) scale(1);
+    opacity: 1; }
+  100% {
+    -webkit-transform: rotate(-90deg) scale(0.5);
+            transform: rotate(-90deg) scale(0.5);
+    opacity: 0; } }
+
+/*
+## animation-hint-other-to-current
+
+```
+<div class="hint-container">
+  <div class="hint-current" style="background-color:#ccccff;" onclick="(function(e, c) { e.classList.add(c); setTimeout(function() { e.classList.remove(c); }, 1000); })(this, 'animation-hint-other-to-current')"></div>
+  <div class="hint-other" style="background-color:#ffcccc;"></div>
+  <div class="hint-other" style="background-color:#ffcccc;"></div>
+  <div class="hint-other" style="background-color:#ffcccc;"></div>
+</div>
+```
+ */
+.animation-hint-other-to-current {
+  -webkit-animation-name: animation-hint-other-to-current;
+          animation-name: animation-hint-other-to-current;
+  -webkit-animation-duration: 0.5s;
+          animation-duration: 0.5s;
+  -webkit-animation-timing-function: ease;
+          animation-timing-function: ease;
+  -webkit-animation-iteration-count: 1;
+          animation-iteration-count: 1;
+  -webkit-animation-fill-mode: forwards;
+          animation-fill-mode: forwards; }
+
+@-webkit-keyframes animation-hint-other-to-current {
+  0% {
+    -webkit-transform: translate(87px, 15px) scale(0.66667);
+            transform: translate(87px, 15px) scale(0.66667); }
+  100% {
+    -webkit-transform: translate(0, 0) scale(1);
+            transform: translate(0, 0) scale(1); } }
+
+@keyframes animation-hint-other-to-current {
+  0% {
+    -webkit-transform: translate(87px, 15px) scale(0.66667);
+            transform: translate(87px, 15px) scale(0.66667); }
+  100% {
+    -webkit-transform: translate(0, 0) scale(1);
+            transform: translate(0, 0) scale(1); } }
+
+/*
+## animation-hint-other
+
+```
+<div class="hint-container">
+  <div class="hint-current" style="background-color:#ffcccc;"></div>
+  <div class="hint-other" id="hint-other1" style="background-color:#ccffcc;" onclick="(function(e1, e2, c) { e1.classList.add(c); e2.classList.add(c); setTimeout(function() { e1.classList.remove(c); e2.classList.remove(c); }, 1000); })(document.getElementById('hint-other1'), document.getElementById('hint-other2'), 'animation-hint-other')"></div>
+  <div class="hint-other" id="hint-other2" style="background-color:#ccccff;" onclick="(function(e1, e2, c) { e1.classList.add(c); e2.classList.add(c); setTimeout(function() { e1.classList.remove(c); e2.classList.remove(c); }, 1000); })(document.getElementById('hint-other1'), document.getElementById('hint-other2'), 'animation-hint-other')"></div>
+  <div class="hint-other" style="background-color:#ffcccc;"></div>
+</div>
+```
+*/
+.animation-hint-other {
+  -webkit-animation-name: animation-hint-other;
+          animation-name: animation-hint-other;
+  -webkit-animation-duration: 0.5s;
+          animation-duration: 0.5s;
+  -webkit-animation-timing-function: ease;
+          animation-timing-function: ease;
+  -webkit-animation-iteration-count: 1;
+          animation-iteration-count: 1;
+  -webkit-animation-fill-mode: forwards;
+          animation-fill-mode: forwards; }
+
+@-webkit-keyframes animation-hint-other {
+  0% {
+    -webkit-transform: translate(72px, 0);
+            transform: translate(72px, 0); }
+  100% {
+    -webkit-transform: translate(0, 0);
+            transform: translate(0, 0); } }
+
+@keyframes animation-hint-other {
+  0% {
+    -webkit-transform: translate(72px, 0);
+            transform: translate(72px, 0); }
+  100% {
+    -webkit-transform: translate(0, 0);
+            transform: translate(0, 0); } }
+
+/*
+## animation-hint-new
+
+```
+<div class="hint-container">
+  <div class="hint-current" style="background-color:#ffcccc;"></div>
+  <div class="hint-other" style="background-color:#ffcccc;"></div>
+  <div class="hint-other" style="background-color:#ffcccc;"></div>
+  <div class="hint-other" style="background-color:#ccccff;" onclick="(function(e, c) { e.classList.add(c); setTimeout(function() { e.classList.remove(c); }, 1000); })(this, 'animation-hint-new')"></div>
+</div>
+```
+ */
+.animation-hint-new {
+  -webkit-animation-name: animation-hint-new;
+          animation-name: animation-hint-new;
+  -webkit-animation-duration: 0.5s;
+          animation-duration: 0.5s;
+  -webkit-animation-timing-function: ease;
+          animation-timing-function: ease;
+  -webkit-animation-iteration-count: 1;
+          animation-iteration-count: 1;
+  -webkit-animation-fill-mode: forwards;
+          animation-fill-mode: forwards; }
+
+@-webkit-keyframes animation-hint-new {
+  0% {
+    -webkit-transform: scale(0.5);
+            transform: scale(0.5);
+    opacity: 0; }
+  100% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    opacity: 1; } }
+
+@keyframes animation-hint-new {
+  0% {
+    -webkit-transform: scale(0.5);
+            transform: scale(0.5);
+    opacity: 0; }
+  100% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    opacity: 1; } }
+
+/*
+## simultaneously
+
+```
+<div class="hint-container" id="sim">
+  <div class="hint-dummy" id="sim0" style="background-color:#ffccff"></div>
+  <div class="hint-current" id="sim1" style="background-color:#ffcccc;"></div>
+  <div class="hint-other" id="sim2" style="background-color:#ccffcc;"></div>
+  <div class="hint-other" id="sim3" style="background-color:#ccccff;"></div>
+  <div class="hint-other" id="sim4" style="background-color:#ffcc99;"></div>
+</div>
+<button onclick="(function(d){var s=d.getElementById('sim').children;var p='animation-hint-';var c=['current','other-to-current','other','other','new'];var tmp=s[0].style.backgroundColor;var i;for(i=0;i<4;i++){s[i].style.backgroundColor=s[i+1].style.backgroundColor;s[i].classList.add(p+c[i]);}s[4].style.backgroundColor=tmp;s[4].classList.add(p+c[4]);setTimeout(function(){for(var j=0;j<5;j++){s[j].classList.remove(p+c[j]);}},1000);})(document)">start</button>
+```
+ */
 @media screen and (max-width: 620px) {
   .hint-container {
     display: -webkit-box;
@@ -374,29 +564,194 @@
     -webkit-box-align: end;
     -webkit-align-items: flex-end;
         -ms-flex-align: end;
-            align-items: flex-end; }
+            align-items: flex-end;
+    position: relative; }
+  .hint-dummy {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    width: 45px;
+    height: 45px;
+    margin: 3px;
+    border-radius: 5px;
+    opacity: 0; }
   .hint-current {
-    float: left;
-    width: 60px;
-    height: 60px;
+    width: 45px;
+    height: 45px;
     margin: 3px;
     border-radius: 5px; }
-  .hint-other-container {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-orient: horizontal;
-    -webkit-box-direction: normal;
-    -webkit-flex-direction: row;
-        -ms-flex-direction: row;
-            flex-direction: row;
-    width: 120px;
-    height: 40px; }
   .hint-other {
-    -webkit-box-flex: 1;
-    -webkit-flex: auto;
-        -ms-flex: auto;
-            flex: auto;
+    width: 30px;
+    height: 30px;
     margin: 3px;
-    border-radius: 5px; } }
+    border-radius: 5px; }
+  /*
+  ## animation-hint-current
+  
+  ```
+<div class="hint-container">
+  <div class="hint-current" style="background-color:#ccccff;" onclick="(function(e, c) { e.classList.add(c); setTimeout(function() { e.classList.remove(c); }, 1000); })(this, 'animation-hint-current')"></div>
+  <div class="hint-other" style="background-color:#ffcccc;"></div>
+  <div class="hint-other" style="background-color:#ffcccc;"></div>
+  <div class="hint-other" style="background-color:#ffcccc;"></div>
+</div>
+  ```
+ */
+  .animation-hint-current {
+    -webkit-animation-name: animation-hint-current;
+            animation-name: animation-hint-current;
+    -webkit-animation-duration: 0.5s;
+            animation-duration: 0.5s;
+    -webkit-animation-timing-function: ease;
+            animation-timing-function: ease;
+    -webkit-animation-iteration-count: 1;
+            animation-iteration-count: 1;
+    -webkit-animation-fill-mode: forwards;
+            animation-fill-mode: forwards; }
+  @-webkit-keyframes animation-hint-current {
+    0% {
+      -webkit-transform: rotate(0deg) scale(1);
+              transform: rotate(0deg) scale(1);
+      opacity: 1; }
+    100% {
+      -webkit-transform: rotate(-90deg) scale(0.5);
+              transform: rotate(-90deg) scale(0.5);
+      opacity: 0; } }
+  @keyframes animation-hint-current {
+    0% {
+      -webkit-transform: rotate(0deg) scale(1);
+              transform: rotate(0deg) scale(1);
+      opacity: 1; }
+    100% {
+      -webkit-transform: rotate(-90deg) scale(0.5);
+              transform: rotate(-90deg) scale(0.5);
+      opacity: 0; } }
+  /*
+## animation-hint-other-to-current
+
+```
+<div class="hint-container">
+  <div class="hint-current" style="background-color:#ccccff;" onclick="(function(e, c) { e.classList.add(c); setTimeout(function() { e.classList.remove(c); }, 1000); })(this, 'animation-hint-other-to-current')"></div>
+  <div class="hint-other" style="background-color:#ffcccc;"></div>
+  <div class="hint-other" style="background-color:#ffcccc;"></div>
+  <div class="hint-other" style="background-color:#ffcccc;"></div>
+</div>
+```
+ */
+  .animation-hint-other-to-current {
+    -webkit-animation-name: animation-hint-other-to-current;
+            animation-name: animation-hint-other-to-current;
+    -webkit-animation-duration: 0.5s;
+            animation-duration: 0.5s;
+    -webkit-animation-timing-function: ease;
+            animation-timing-function: ease;
+    -webkit-animation-iteration-count: 1;
+            animation-iteration-count: 1;
+    -webkit-animation-fill-mode: forwards;
+            animation-fill-mode: forwards; }
+  @-webkit-keyframes animation-hint-other-to-current {
+    0% {
+      -webkit-transform: translate(43.5px, 7.5px) scale(0.66667);
+              transform: translate(43.5px, 7.5px) scale(0.66667); }
+    100% {
+      -webkit-transform: translate(0, 0) scale(1);
+              transform: translate(0, 0) scale(1); } }
+  @keyframes animation-hint-other-to-current {
+    0% {
+      -webkit-transform: translate(43.5px, 7.5px) scale(0.66667);
+              transform: translate(43.5px, 7.5px) scale(0.66667); }
+    100% {
+      -webkit-transform: translate(0, 0) scale(1);
+              transform: translate(0, 0) scale(1); } }
+  /*
+## animation-hint-other
+
+```
+<div class="hint-container">
+  <div class="hint-current" style="background-color:#ffcccc;"></div>
+  <div class="hint-other" id="hint-other1" style="background-color:#ccffcc;" onclick="(function(e1, e2, c) { e1.classList.add(c); e2.classList.add(c); setTimeout(function() { e1.classList.remove(c); e2.classList.remove(c); }, 1000); })(document.getElementById('hint-other1'), document.getElementById('hint-other2'), 'animation-hint-other')"></div>
+  <div class="hint-other" id="hint-other2" style="background-color:#ccccff;" onclick="(function(e1, e2, c) { e1.classList.add(c); e2.classList.add(c); setTimeout(function() { e1.classList.remove(c); e2.classList.remove(c); }, 1000); })(document.getElementById('hint-other1'), document.getElementById('hint-other2'), 'animation-hint-other')"></div>
+  <div class="hint-other" style="background-color:#ffcccc;"></div>
+</div>
+```
+*/
+  .animation-hint-other {
+    -webkit-animation-name: animation-hint-other;
+            animation-name: animation-hint-other;
+    -webkit-animation-duration: 0.5s;
+            animation-duration: 0.5s;
+    -webkit-animation-timing-function: ease;
+            animation-timing-function: ease;
+    -webkit-animation-iteration-count: 1;
+            animation-iteration-count: 1;
+    -webkit-animation-fill-mode: forwards;
+            animation-fill-mode: forwards; }
+  @-webkit-keyframes animation-hint-other {
+    0% {
+      -webkit-transform: translate(36px, 0);
+              transform: translate(36px, 0); }
+    100% {
+      -webkit-transform: translate(0, 0);
+              transform: translate(0, 0); } }
+  @keyframes animation-hint-other {
+    0% {
+      -webkit-transform: translate(36px, 0);
+              transform: translate(36px, 0); }
+    100% {
+      -webkit-transform: translate(0, 0);
+              transform: translate(0, 0); } }
+  /*
+## animation-hint-new
+
+```
+<div class="hint-container">
+  <div class="hint-current" style="background-color:#ffcccc;"></div>
+  <div class="hint-other" style="background-color:#ffcccc;"></div>
+  <div class="hint-other" style="background-color:#ffcccc;"></div>
+  <div class="hint-other" style="background-color:#ccccff;" onclick="(function(e, c) { e.classList.add(c); setTimeout(function() { e.classList.remove(c); }, 1000); })(this, 'animation-hint-new')"></div>
+</div>
+```
+ */
+  .animation-hint-new {
+    -webkit-animation-name: animation-hint-new;
+            animation-name: animation-hint-new;
+    -webkit-animation-duration: 0.5s;
+            animation-duration: 0.5s;
+    -webkit-animation-timing-function: ease;
+            animation-timing-function: ease;
+    -webkit-animation-iteration-count: 1;
+            animation-iteration-count: 1;
+    -webkit-animation-fill-mode: forwards;
+            animation-fill-mode: forwards; }
+  @-webkit-keyframes animation-hint-new {
+    0% {
+      -webkit-transform: scale(0.5);
+              transform: scale(0.5);
+      opacity: 0; }
+    100% {
+      -webkit-transform: scale(1);
+              transform: scale(1);
+      opacity: 1; } }
+  @keyframes animation-hint-new {
+    0% {
+      -webkit-transform: scale(0.5);
+              transform: scale(0.5);
+      opacity: 0; }
+    100% {
+      -webkit-transform: scale(1);
+              transform: scale(1);
+      opacity: 1; } }
+  /*
+## simultaneously
+
+```
+<div class="hint-container" id="sim">
+  <div class="hint-dummy" id="sim0" style="background-color:#ffccff"></div>
+  <div class="hint-current" id="sim1" style="background-color:#ffcccc;"></div>
+  <div class="hint-other" id="sim2" style="background-color:#ccffcc;"></div>
+  <div class="hint-other" id="sim3" style="background-color:#ccccff;"></div>
+  <div class="hint-other" id="sim4" style="background-color:#ffcc99;"></div>
+</div>
+<button onclick="(function(d){var s=d.getElementById('sim').children;var p='animation-hint-';var c=['current','other-to-current','other','other','new'];var tmp=s[0].style.backgroundColor;var i;for(i=0;i<4;i++){s[i].style.backgroundColor=s[i+1].style.backgroundColor;s[i].classList.add(p+c[i]);}s[4].style.backgroundColor=tmp;s[4].classList.add(p+c[4]);setTimeout(function(){for(var j=0;j<5;j++){s[j].classList.remove(p+c[j]);}},1000);})(document)">start</button>
+```
+ */ }
