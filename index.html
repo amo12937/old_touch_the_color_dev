@@ -193,7 +193,7 @@ onLoad = (function() {
 
   var model = (function(n, m) {
     var scoreManager = ScoreManagerProvider(defaultNotificationCenter, notificationKeys, 0);
-    var timer = TimerProvider(defaultNotificationCenter, notificationKeys, 3000, 3000, 130);
+    var timer = TimerProvider(defaultNotificationCenter, notificationKeys, 5000, 5000, 130);
     var itemContainer = itemContainerProvider(n, n);
     var hint = hintProvider(n, m);
     var colors = [
@@ -230,7 +230,7 @@ onLoad = (function() {
           return;
         }
         timer.start();
-        timer.add(1000);
+        timer.add(500);
         itemContainer.select(i);
         hint.shift();
         scoreManager.increment();
