@@ -803,3 +803,40 @@
 <button onclick="(function(d){var s=d.getElementById('sim').children;var p='animation-hint-';var c=['current','other-to-current','other','other','new'];var tmp=s[0].style.backgroundColor;var i;for(i=0;i<4;i++){s[i].style.backgroundColor=s[i+1].style.backgroundColor;s[i].classList.add(p+c[i]);}s[4].style.backgroundColor=tmp;s[4].classList.add(p+c[4]);setTimeout(function(){for(var j=0;j<5;j++){s[j].classList.remove(p+c[j]);}},1000);})(document)">start</button>
 ```
  */ }
+
+/*
+# score
+
+## animation-score-updated
+`animation-score-updated` は得点や制限時間が変動した時に使用する
+
+```
+<div id="score" style="text-align:center;">1</div>
+<button onclick="(function(e, c) { e.classList.remove(c); var t = Number(e.textContent) + 1; setTimeout(function() {e.textContent = t; e.classList.add(c)});})(document.getElementById('score'), 'animation-score-updated')">add</button>
+```
+ */
+.animation-score-updated {
+  -webkit-animation-name: animation-score-updated;
+          animation-name: animation-score-updated;
+  -webkit-animation-duration: 0.1s;
+          animation-duration: 0.1s;
+  -webkit-animation-timing-function: ease;
+          animation-timing-function: ease;
+  -webkit-animation-iteration-count: 1;
+          animation-iteration-count: 1; }
+
+@-webkit-keyframes animation-score-updated {
+  0% {
+    -webkit-transform: scale(1.5);
+            transform: scale(1.5); }
+  100% {
+    -webkit-transform: scale(1);
+            transform: scale(1); } }
+
+@keyframes animation-score-updated {
+  0% {
+    -webkit-transform: scale(1.5);
+            transform: scale(1.5); }
+  100% {
+    -webkit-transform: scale(1);
+            transform: scale(1); } }
