@@ -225,12 +225,12 @@ onLoad = (function() {
     var self = {
       "select": function(i) {
         if (gameover || !hint.try(i)) {
-          timer.add(-1000);
+          timer.add(-1500);
           defaultNotificationCenter.notify(notificationKeys.SELECT_FAIL, i);
           return;
         }
         timer.start();
-        timer.add(500);
+        timer.add(1000);
         itemContainer.select(i);
         hint.shift();
         scoreManager.increment();
