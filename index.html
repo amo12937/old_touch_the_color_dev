@@ -239,6 +239,8 @@ onLoad = (function() {
     return function(hintDummy, hintElms, itemElms, timerElm, restartElm) {
       defaultNotificationCenter.addObserver(notificationKeys.GAME_READY_TO_START, function() {
         restartElm.style.opacity = 0;
+        var hints = m.getHint();
+        itemElms[hints[0]].classList.add("animation-board-first-item");
       });
       defaultNotificationCenter.addObserver(notificationKeys.HINT_SHIFTED, function(hints) {
         var i, n, items = m.getItemContainer();
@@ -282,6 +284,8 @@ onLoad = (function() {
       });
 
       defaultNotificationCenter.addObserver(notificationKeys.TIMER_STARTED, function(msec) {
+        var hints = m.getHint();
+        itemElms[hints[0]].classList.remove("animation-board-first-item");
         timerElm.textContent = msec / 1000;
       });
 
@@ -310,6 +314,7 @@ onLoad = (function() {
       for (i = 0, n = hints.length; i < n; i++) {
         hintElms[i].style.backgroundColor = m.getColor(items[hints[i]]);
       }
+      itemElms[hints[0]].classList.add("animation-board-first-item");
       for (i = 0, n = items.length; i < n; i++) {
         itemElms[i].children[0].style.backgroundColor = m.getColor(items[i]);
       }
