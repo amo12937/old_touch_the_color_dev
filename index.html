@@ -194,15 +194,20 @@ onLoad = (function() {
       "#666666",
     ];
 
+    var gameover = false;
+    defaultNotificationCenter.addObserver(notificationKeys.TIMER_STOPPED, function() {
+      gameover = true;
+    });
+
     var self = {
       "select": function(i) {
-        if (!hint.try(i)) {
+        if (gameover || !hint.try(i)) {
           timer.add(-1000);
           defaultNotificationCenter.notify(notificationKeys.SELECT_FAIL, i);
           return;
         }
         timer.start();
-        timer.add(100);
+        timer.add(1000);
         itemContainer.select(i);
         hint.shift();
       },
@@ -333,7 +338,7 @@ onLoad = (function() {
 </script>
 </head>
 <body onload="onLoad(window, document)">
-<div id="timer">0</div>
+<div style="text-align:center" id="timer">0</div>
 <div class="hint-container">
   <div class="hint-dummy"></div>
   <div class="hint-current"></div>
